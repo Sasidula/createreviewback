@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -26,6 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "MediaDB";
     private static final int DATABASE_VERSION = 1;
 
+    private static final String COLUMN_USER_ID = "user_id";
     private static final String COLUMN_INDEX = "loc_index";
 
     private static final String TABLE_IMAGES = "Images";
@@ -34,6 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_REVIEWS = "Reviews";
     private static final String TABLE_STATUS = "state";
     private static final String TABLE_PLAN = "Fplan";
+    private static final String TABLE_Locations = "Locations";
 
     public static final String COLUMN_ID = "id";
     private static final String COLUMN_IMAGE = "image";
@@ -47,6 +50,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_DATE = "date";
     private static final String COLUMN_START_TIME = "start_time";
     private static final String COLUMN_END_TIME = "end_time";
+
+    private static final String COLUMN_LOCATION_NAME = "location_name";
+    private static final String COLUMN_LOCATION_ID = "location_id";
+    private static final String COLUMN_SAVED_DATE = "save_date";
 
     private SharedPreferences sharedPreferences;
 
@@ -94,12 +101,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_START_TIME + " TEXT, "
                 + COLUMN_END_TIME + " TEXT)";
 
+        String createTable = "CREATE TABLE " + TABLE_Locations + " (" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_LOCATION_ID + " TEXT, " +
+                COLUMN_LOCATION_NAME + " TEXT, " +
+                COLUMN_DATE + " TEXT, " +
+                COLUMN_USER_ID + " TEXT)";
+
         db.execSQL(createImageTable);
         db.execSQL(createVideoTable);
         db.execSQL(createNotesTable);
         db.execSQL(createReviewTable);
         db.execSQL(createStatusTable);
         db.execSQL(createPlanTable);
+        db.execSQL(createTable);
     }
 
     @Override
@@ -110,6 +125,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REVIEWS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_STATUS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLAN);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_Locations);
         onCreate(db);
     }
 
@@ -353,5 +369,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Set the alarm to trigger at the event time
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, eventTime, pendingIntent);
+    }
+
+    public List<String> getSavedLocationIds(String userId) {
+        List<String> locationIds = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT location_id FROM " + TABLE_NAME + " WHERE user_id=?", new String[]{userId});
+
+        if (cursor.moveToFirst()) {
+            do {
+                locationIds.add(cursor.getString(0)); // Get location_id
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return locationIds;
     }
 }

@@ -303,14 +303,6 @@ public class location extends AppCompatActivity {
         return !date.isEmpty() && !startTime.isEmpty() && !endTime.isEmpty();
     }
 
-    private void updateVisitStatus(int status) {
-        // Implement the logic to update the visit status in the database
-        // For example, using your DatabaseHelper class:
-        dbHelper = new DatabaseHelper(this);
-        int locIndex = getCurrentLocationIndex(); // Implement this method to get the current location index
-        dbHelper.insertOrUpdateStatus(locIndex, status);
-    }
-
     private void savePlanDetails(String date, String startTime, String endTime) {
         // Implement the logic to save the plan details in the database
         // For example, using your DatabaseHelper class:
@@ -387,5 +379,13 @@ public class location extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void updateVisitStatus(int status) {
+        // Implement the logic to update the visit status in the database
+        // For example, using your DatabaseHelper class:
+        dbHelper = new DatabaseHelper(this);
+        int locIndex = getCurrentLocationIndex(); // Implement this method to get the current location index
+        dbHelper.insertOrUpdateStatus(locIndex, status);
     }*/
 
