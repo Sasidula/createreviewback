@@ -1,0 +1,5 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <color android:color="#FFFAF0"/> <!-- Soft Ivory background -->
+    </item>
+</layer-list>

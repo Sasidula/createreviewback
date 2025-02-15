@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Border layer -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#FFADD8E6" /> <!-- Light blue border color -->
+            <corners android:radius="12dp" /> <!-- Corner radius -->
+        </shape>
+    </item>
+    <!-- Inner background layer -->
+    <item android:left="2dp" android:top="2dp" android:right="2dp" android:bottom="2dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFFFF" /> <!-- Inner background color -->
+            <corners android:radius="10dp" /> <!-- Slightly smaller radius to fit inside the border -->
+        </shape>
+    </item>
+</layer-list>

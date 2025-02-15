@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- GridView for displaying notes -->
+    <GridView
+        android:id="@+id/gridView"
+        android:layout_width="371dp"
+        android:layout_height="580dp"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginVertical="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/grid_background"
+        android:columnWidth="120dp"
+        android:gravity="center"
+        android:horizontalSpacing="8dp"
+        android:numColumns="1"
+        android:scrollbars="vertical"
+        android:verticalSpacing="25dp" />
+
+    <!-- LinearLayout containing the EditText and Button at the bottom -->
+    <LinearLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="430dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_margin="10dp">
+
+        <!-- Text input field for notes -->
+        <EditText
+            android:id="@+id/editTextNote"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/grid_background"
+            android:hint="Enter your note here"
+            android:inputType="textMultiLine|textCapSentences"
+            android:padding="10dp"/>
+
+        <!-- Submit button with icon -->
+        <Button
+            android:id="@+id/btnSubmitNote"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/grid_background"
+            android:drawableLeft="@drawable/ic_send"
+            android:drawablePadding="8dp"/>
+    </LinearLayout>
+
+
+</RelativeLayout>
+
