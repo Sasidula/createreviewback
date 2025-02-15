@@ -106,7 +106,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_LOCATION_ID + " TEXT, " +
                 COLUMN_LOCATION_NAME + " TEXT, " +
                 COLUMN_DATE + " TEXT, " +
-                COLUMN_USER_ID + " TEXT)";
+                COLUMN_USER_ID + " INTEGER)";
 
         db.execSQL(createImageTable);
         db.execSQL(createVideoTable);
@@ -371,10 +371,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, eventTime, pendingIntent);
     }
 
-    public List<String> getSavedLocationIds(String userId) {
+    public List<String> getSavedLocationIds(Integer userId) {
         List<String> locationIds = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT location_id FROM " + TABLE_Locations + " WHERE user_id=?", new String[]{userId});
+        Cursor cursor = db.rawQuery("SELECT location_id FROM " + TABLE_Locations + " WHERE user_id=?", new String[]{String.valueOf(userId)});
 
         if (cursor.moveToFirst()) {
             do {
