@@ -374,7 +374,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<String> getSavedLocationIds(String userId) {
         List<String> locationIds = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT location_id FROM " + TABLE_NAME + " WHERE user_id=?", new String[]{userId});
+        Cursor cursor = db.rawQuery("SELECT location_id FROM " + TABLE_Locations + " WHERE user_id=?", new String[]{userId});
 
         if (cursor.moveToFirst()) {
             do {
