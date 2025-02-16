@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import java.util.List;
 
 public class LocationGridAdapter extends BaseAdapter {
@@ -31,25 +32,31 @@ public class LocationGridAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return locationList.get(position).getLocationId(); // Return the locationId
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.grid_location, parent, false);
+            holder = new ViewHolder();
+            holder.imageView = convertView.findViewById(R.id.imageView);
+            holder.textView = convertView.findViewById(R.id.textView);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
-
-        ImageView imageView = convertView.findViewById(R.id.imageView);
-        TextView textView = convertView.findViewById(R.id.textView);
 
         LocationItem item = locationList.get(position);
-        textView.setText(item.getName());
-
-        if (item.getImage() instanceof Bitmap) {
-            imageView.setImageBitmap((Bitmap) item.getImage());
-        }
+        holder.textView.setText(item.getName());
+        holder.imageView.setImageBitmap(item.getImage());
 
         return convertView;
+    }
+
+    private static class ViewHolder {
+        ImageView imageView;
+        TextView textView;
     }
 }

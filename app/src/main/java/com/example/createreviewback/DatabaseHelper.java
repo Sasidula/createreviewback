@@ -30,6 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_USER_ID = "user_id";
     private static final String COLUMN_INDEX = "loc_index";
 
+    private static final String TABLE_USER = "user_table";
     private static final String TABLE_IMAGES = "Images";
     private static final String TABLE_VIDEOS = "Videos";
     public static final String TABLE_NOTES = "Notes";
@@ -54,6 +55,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_LOCATION_NAME = "location_name";
     private static final String COLUMN_LOCATION_ID = "location_id";
     private static final String COLUMN_SAVED_DATE = "save_date";
+
+    private static final String COLUMN_FIRST_NAME = "first_name";
+    private static final String COLUMN_LAST_NAME = "last_name";
+    private static final String COLUMN_EMAIL = "email";
+    private static final String COLUMN_PASSWORD = "password";
 
     private SharedPreferences sharedPreferences;
 
@@ -101,12 +107,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_START_TIME + " TEXT, "
                 + COLUMN_END_TIME + " TEXT)";
 
-        String createTable = "CREATE TABLE " + TABLE_Locations + " (" +
+        String createLocTable = "CREATE TABLE " + TABLE_Locations + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_LOCATION_ID + " TEXT, " +
                 COLUMN_LOCATION_NAME + " TEXT, " +
-                COLUMN_DATE + " TEXT, " +
+                COLUMN_SAVED_DATE + " TEXT, " +
                 COLUMN_USER_ID + " INTEGER)";
+
+        String createUserTable = "CREATE TABLE " + TABLE_USER + " (" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_FIRST_NAME + " TEXT, " +
+                COLUMN_LAST_NAME + " TEXT, " +
+                COLUMN_EMAIL + " TEXT UNIQUE, " +
+                COLUMN_PASSWORD + " TEXT)";
 
         db.execSQL(createImageTable);
         db.execSQL(createVideoTable);
@@ -114,7 +127,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createReviewTable);
         db.execSQL(createStatusTable);
         db.execSQL(createPlanTable);
-        db.execSQL(createTable);
+        db.execSQL(createLocTable);
+        db.execSQL(createUserTable);
+
     }
 
     @Override
@@ -126,6 +141,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_STATUS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLAN);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_Locations);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
         onCreate(db);
     }
 
@@ -371,17 +387,103 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, eventTime, pendingIntent);
     }
 
-    public List<String> getSavedLocationIds(Integer userId) {
-        List<String> locationIds = new ArrayList<>();
+    public List<Integer> getSavedLocationIds(int userId) {
+        List<Integer> locationIds = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT location_id FROM " + TABLE_Locations + " WHERE user_id=?", new String[]{String.valueOf(userId)});
+        Cursor cursor = db.rawQuery("SELECT " + COLUMN_LOCATION_ID + " FROM " + TABLE_Locations + " WHERE " + COLUMN_USER_ID + "=?", new String[]{String.valueOf(userId)});
 
         if (cursor.moveToFirst()) {
             do {
-                locationIds.add(cursor.getString(0)); // Get location_id
+                locationIds.add(cursor.getInt(0)); // Get location_id
             } while (cursor.moveToNext());
         }
         cursor.close();
         return locationIds;
     }
+
+    public int insertUser(String firstName, String lastName, String email, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_FIRST_NAME, firstName);
+        values.put(COLUMN_LAST_NAME, lastName);
+        values.put(COLUMN_EMAIL, email);
+        values.put(COLUMN_PASSWORD, password);
+
+        long result = db.insert(TABLE_USER, null, values);
+        db.close();
+
+        return (int) result; // Return the inserted row ID or -1 if the insert failed
+    }
+
+
+    // Check if Email exists
+    public boolean checkEmailExists(String email) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_USER, new String[]{COLUMN_ID},
+                COLUMN_EMAIL + "=?", new String[]{email},
+                null, null, null);
+        boolean exists = (cursor.getCount() > 0);
+        cursor.close();
+        db.close();
+        return exists;
+    }
+
+    public boolean saveLocation(String locationId, String locationName, String date, Integer userId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_LOCATION_ID, locationId);
+        values.put(COLUMN_LOCATION_NAME, locationName);
+        values.put(COLUMN_SAVED_DATE, date);
+        values.put(COLUMN_USER_ID, userId);
+
+        long result = db.insert(TABLE_Locations, null, values);
+        return result != -1; // Returns true if inserted successfully
+    }
+
+    public List<LocationModel> getLocationsByUserId(int userId) {
+        List<LocationModel> locationList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT " + COLUMN_ID + ", " + COLUMN_LOCATION_NAME +
+                        " FROM " + TABLE_Locations +
+                        " WHERE " + COLUMN_USER_ID + " = ?",
+                new String[]{String.valueOf(userId)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(0);
+                String name = cursor.getString(1);
+                locationList.add(new LocationModel(id, name));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return locationList;
+    }
+
+    public boolean updateUserDetails(int userId, String firstName, String lastName, String email) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_FIRST_NAME, firstName);
+        values.put(COLUMN_LAST_NAME, lastName);
+        values.put(COLUMN_EMAIL, email);
+
+        int result = db.update(TABLE_USER, values, COLUMN_ID + "=?", new String[]{String.valueOf(userId)});
+        db.close();
+        return result > 0; // Return true if update is successful
+    }
+
+    // Method to update user password
+    public boolean updatePassword(int userId, String newPassword) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_PASSWORD, newPassword);
+
+        int result = db.update(TABLE_USER, values, COLUMN_ID + "=?", new String[]{String.valueOf(userId)});
+        db.close();
+        return result > 0;
+    }
 }
+
+

@@ -6,7 +6,7 @@
     <GridView
         android:id="@+id/gridView"
         android:layout_width="371dp"
-        android:layout_height="580dp"
+        android:layout_height="480dp"
         android:layout_marginHorizontal="40dp"
         android:layout_marginVertical="20dp"
         android:paddingTop="20dp"
@@ -25,12 +25,18 @@
     <!-- LinearLayout containing the EditText and Button at the bottom -->
     <LinearLayout
         android:id="@+id/buttonLayout"
-        android:layout_width="430dp"
-        android:layout_height="60dp"
+        android:layout_width="401dp"
+        android:layout_height="90dp"
+        android:layout_below="@+id/gridView"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="152dp"
         android:gravity="center_vertical"
-        android:layout_margin="10dp">
+        android:orientation="horizontal">
 
         <!-- Text input field for notes -->
         <EditText
@@ -41,7 +47,7 @@
             android:background="@drawable/grid_background"
             android:hint="Enter your note here"
             android:inputType="textMultiLine|textCapSentences"
-            android:padding="10dp"/>
+            android:padding="10dp" />
 
         <!-- Submit button with icon -->
         <Button
@@ -51,7 +57,7 @@
             android:layout_marginLeft="10dp"
             android:background="@drawable/grid_background"
             android:drawableLeft="@drawable/ic_send"
-            android:drawablePadding="8dp"/>
+            android:drawablePadding="8dp" />
     </LinearLayout>
 
 

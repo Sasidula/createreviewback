@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GoogleMaps" >
+
+    <!-- Top Search Bar -->
+    <LinearLayout
+    android:id="@+id/search_bar"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:background="@color/blue"
+    android:padding="10dp"
+    android:orientation="horizontal">
+
+    <EditText
+        android:id="@+id/search_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint="Search Google Maps"
+        android:padding="10dp"
+        android:background="@color/white"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/search_icon"
+        android:layout_width="47dp"
+        android:layout_height="47dp"
+        android:src="@drawable/ic_search"
+        android:background="@color/white"
+        android:padding="5dp"
+        android:contentDescription="Search" />
+    </LinearLayout>
+
+    <!-- Google Maps Fragment -->
+    <fragment
+    android:id="@+id/map"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@id/search_bar"
+    class="com.google.android.gms.maps.SupportMapFragment"/>
+
+    <!-- Bottom Navigation Bar -->
+    <LinearLayout
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="-1dp"
+        android:background="@color/blue"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/home_icon"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:contentDescription="Home"
+            android:padding="15dp"
+            android:src="@drawable/ic_home" />
+
+        <ImageView
+            android:id="@+id/location_icon"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:contentDescription="Location"
+            android:padding="15dp"
+            android:src="@drawable/ic_location" />
+
+        <ImageView
+            android:id="@+id/search_button"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:contentDescription="Search"
+            android:padding="15dp"
+            android:src="@drawable/ic_search_w" />
+
+        <ImageView
+            android:id="@+id/profile_icon"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:contentDescription="Profile"
+            android:padding="15dp"
+            android:src="@drawable/ic_profile" />
+    </LinearLayout>
+
+</RelativeLayout>

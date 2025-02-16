@@ -6,7 +6,7 @@
     <GridView
         android:id="@+id/gridView"
         android:layout_width="371dp"
-        android:layout_height="580dp"
+        android:layout_height="480dp"
         android:layout_marginHorizontal="40dp"
         android:layout_marginVertical="20dp"
         android:paddingTop="20dp"
@@ -26,8 +26,8 @@
         android:id="@+id/buttonLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginBottom="10dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="139dp"
         android:orientation="horizontal">
 
         <Space
@@ -48,10 +48,10 @@
             android:layout_height="10dp"></Space>
 
         <Button
-            android:background="@drawable/button_style"
             android:id="@+id/btnAddVideo"
             android:layout_width="320dp"
             android:layout_height="50dp"
+            android:background="@drawable/button_style"
             android:text="Add Video" />
 
 

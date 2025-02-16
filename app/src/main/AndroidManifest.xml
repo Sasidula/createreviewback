@@ -6,12 +6,12 @@
         android:name="android.hardware.camera"
         android:required="false" />
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
 
     <application
         android:allowBackup="true"
@@ -50,9 +50,34 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <activity android:name="home"
+            android:exported="true"
+            android:label="home"></activity>
+
         <activity android:name=".location"
             android:exported="true"
             android:label="location"/>
+
+        <activity android:name=".mainHome"
+            android:exported="true"
+            android:label="mainHome"></activity>
+
+        <activity android:name=".Login"
+            android:exported="true"
+            android:label="Login"></activity>
+
+        <activity android:name=".Register"
+            android:exported="true"
+            android:label="Register"></activity>
+
+        <activity
+            android:name=".GoogleMaps"
+            android:exported="false"
+            android:label="googlemaps" />
+
+        <activity android:name=".usereditact"
+            android:exported="true"
+            android:label="usereditact"></activity>
 
         <!-- Main Activity -->
         <activity
@@ -77,6 +102,9 @@
             </intent-filter>
         </receiver>
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBo2bVN3FMTA9xkigRqns734vH-A2UaWGg" />
 
 
     </application>

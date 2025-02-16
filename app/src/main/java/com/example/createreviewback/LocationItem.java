@@ -3,13 +3,15 @@ package com.example.createreviewback;
 import android.graphics.Bitmap;
 
 public class LocationItem {
+    private int locationId;
     private String name;
-    private Bitmap image; // Assuming image is a Bitmap
+    private Bitmap image;
     private double latitude;
     private double longitude;
 
     // Constructor
-    public LocationItem(String name, Bitmap image, double latitude, double longitude) {
+    public LocationItem(int locationId, String name, Bitmap image, double latitude, double longitude) {
+        this.locationId = locationId;
         this.name = name;
         this.image = image;
         this.latitude = latitude;
@@ -17,6 +19,7 @@ public class LocationItem {
     }
 
     // Getters
+    public int getLocationId() { return locationId; }
     public String getName() { return name; }
     public Bitmap getImage() { return image; }
     public double getLatitude() { return latitude; }

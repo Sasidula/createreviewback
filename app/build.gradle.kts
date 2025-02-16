@@ -46,6 +46,7 @@ dependencies {
     implementation(libs.material.calendar.view)
     implementation(libs.compact.calendar.view)
     implementation(libs.custom.calendar.view)
+    implementation(libs.google.places)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

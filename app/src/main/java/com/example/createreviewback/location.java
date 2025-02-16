@@ -44,6 +44,31 @@ public class location extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.location);
 
+        ImageView map = findViewById(R.id.btmap);
+        map.setOnClickListener(v -> {
+            Intent intent = new Intent(location.this, GoogleMaps.class);
+            startActivity(intent);
+        });
+
+        ImageView home = findViewById(R.id.bthome);
+        home.setOnClickListener(v -> {
+            Intent intent = new Intent(location.this, mainHome.class);
+            startActivity(intent);
+        });
+
+        ImageView search = findViewById(R.id.btsearch);
+        search.setOnClickListener(v -> {
+            Intent intent = new Intent(location.this, home.class);
+            startActivity(intent);
+        });
+
+        ImageView account = findViewById(R.id.btacc);
+        account.setOnClickListener(v -> {
+            Intent intent = new Intent(location.this, usereditact.class);
+            startActivity(intent);
+        });
+
+
         // Initialize button
         Button button = findViewById(R.id.button_explore);
         button.setOnClickListener(v -> openGoogleMaps());
