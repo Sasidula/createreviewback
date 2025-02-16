@@ -104,7 +104,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBo2bVN3FMTA9xkigRqns734vH-A2UaWGg" />
+            android:value="ur key" />
 
 
     </application>
